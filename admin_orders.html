@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理 - 非遗传承</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .search-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .search-filters input,
+        .search-filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+        .admin-table th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .admin-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: middle;
+        }
+        .admin-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-paid { background-color: #d4edda; color: #155724; }
+        .status-shipped { background-color: #cce5ff; color: #004085; }
+        .status-completed { background-color: #d1e7dd; color: #0f5132; }
+        .status-cancelled { background-color: #f8d7da; color: #721c24; }
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .admin-actions button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        .btn-view { background-color: #17a2b8; color: white; }
+        .btn-edit { background-color: #ffc107; color: #000; }
+        .btn-delete { background-color: #dc3545; color: white; }
+        .btn-view:hover { background-color: #138496; }
+        .btn-edit:hover { background-color: #e0a800; }
+        .btn-delete:hover { background-color: #c82333; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 50px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .modal-close {
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .order-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .order-items {
+            grid-column: 1 / -1;
+        }
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .pagination button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <div class="logo">LOGO (Admin)</div>
+            <nav>
+                <ul>
+                    <li><a href="admin_dashboard.html">&laquo; 返回仪表盘</a></li>
+                    <li><a href="index.html">网站首页</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container admin-page">
+        <h1 style="text-align: center;">订单管理</h1>
+        
+        <div class="admin-section">
+            <div class="search-filters">
+                <input type="text" id="searchOrder" placeholder="搜索订单号/用户名" onkeyup="filterOrders()">
+                <select id="statusFilter" onchange="filterOrders()">
+                    <option value="">所有状态</option>
+                    <option value="处理中">处理中</option>
+                    <option value="已支付">已支付</option>
+                    <option value="已发货">已发货</option>
+                    <option value="已完成">已完成</option>
+                    <option value="已取消">已取消</option>
+                </select>
+                <input type="date" id="dateFilter" onchange="filterOrders()">
+                <button onclick="clearFilters()" style="background-color: #6c757d; color: white;">清除筛选</button>
+            </div>
+
+            <table class="admin-table" id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>订单ID</th>
+                        <th>用户</th>
+                        <th>日期</th>
+                        <th>总金额</th>
+                        <th>状态</th>
+                        <th>商品数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div class="pagination" id="pagination">
+            </div>
+        </div>
+    </main>
+
+    <!-- 订单详情模态框 -->
+    <div id="orderDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>订单详情</h2>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="order-details">
+                <div class="order-info">
+                    <h3>订单信息</h3>
+                    <p><strong>订单号：</strong><span id="modalOrderId"></span></p>
+                    <p><strong>下单时间：</strong><span id="modalOrderDate"></span></p>
+                    <p><strong>订单状态：</strong><span id="modalOrderStatus"></span></p>
+                    <p><strong>总金额：</strong><span id="modalOrderTotal"></span></p>
+                </div>
+                <div class="order-info">
+                    <h3>用户信息</h3>
+                    <p><strong>用户名：</strong><span id="modalUserName"></span></p>
+                    <p><strong>联系电话：</strong><span id="modalUserPhone"></span></p>
+                    <p><strong>收货地址：</strong><span id="modalUserAddress"></span></p>
+                </div>
+                <div class="order-items">
+                    <h3>商品清单</h3>
+                    <div id="modalOrderItems"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 非遗传承网站. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let filteredOrders = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            displayOrders();
+        });
+
+        function displayOrders(page = 1) {
+            const ordersTableBody = document.querySelector('#ordersTable tbody');
+            if (!ordersTableBody) return;
+
+            ordersTableBody.innerHTML = '';
+            const mockOrders = JSON.parse(localStorage.getItem('mockOrders')) || [];
+            
+            // 应用筛选
+            filteredOrders = mockOrders.filter(order => {
+                const searchTerm = document.getElementById('searchOrder').value.toLowerCase();
+                const statusFilter = document.getElementById('statusFilter').value;
+                const dateFilter = document.getElementById('dateFilter').value;
+                
+                const matchesSearch = !searchTerm || 
+                    order.id.toLowerCase().includes(searchTerm) || 
+                    order.user.toLowerCase().includes(searchTerm);
+                
+                const matchesStatus = !statusFilter || order.status === statusFilter;
+                
+                const matchesDate = !dateFilter || order.date.includes(dateFilter);
+                
+                return matchesSearch && matchesStatus && matchesDate;
+            });
+
+            // 排序
+            filteredOrders.sort((a, b) => b.id.localeCompare(a.id));
+
+            // 分页
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+
+            if (paginatedOrders.length === 0) {
+                const row = ordersTableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.innerHTML = `
+                    <div class="empty-state">
+                        <i>📦</i>
+                        <p>暂无订单数据</p>
+                    </div>
+                `;
+                return;
+            }
+
+            paginatedOrders.forEach(order => {
+                const row = ordersTableBody.insertRow();
+                const statusClass = getStatusClass(order.status);
+                
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.user}</td>
+                    <td>${order.date}</td>
+                    <td>¥${order.total}</td>
+                    <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                    <td>${order.items.length} 件</td>
+                    <td class="admin-actions">
+                        <button class="btn-view" onclick="viewOrderDetails('${order.id}')">查看</button>
+                        <button class="btn-edit" onclick="editOrderStatus('${order.id}')">编辑</button>
+                        <button class="btn-delete" onclick="deleteOrder('${order.id}')">删除</button>
+                    </td>
+                `;
+            });
+
+            // 更新分页
+            updatePagination(page);
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                '处理中': 'status-pending',
+                '已支付': 'status-paid',
+                '已发货': 'status-shipped',
+                '已完成': 'status-completed',
+                '已取消': 'status-cancelled'
+            };
+            return statusMap[status] || '';
+        }
+
+        function updatePagination(currentPage) {
+            const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // 上一页按钮
+            if (currentPage > 1) {
+                pagination.innerHTML += `
+                    <button onclick="displayOrders(${currentPage - 1})">上一页</button>
+                `;
+            }
+
+            // 页码按钮
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `
+                    <button class="${i === currentPage ? 'active' : ''}" 
+                            onclick="displayOrders(${i})">${i}</button>
+                `;
+            }
+
+            // 下一页按钮
+            if (currentPage < totalPages) {
+                pagination.innerHTML += `
+                    <button onclick="displayOrders(${currentPage + 1})">下一页</button>
+                `;
+            }
+        }
+
+        function filterOrders() {
+            currentPage = 1;
+            displayOrders(currentPage);
+        }
+
+        function clearFilters() {
+            document.getElementById('searchOrder').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('dateFilter').value = '';
+            filterOrders();
+        }
+
+        function viewOrderDetails(orderId) {
+            const order = filteredOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            document.getElementById('modalOrderId').textContent = order.id;
+            document.getElementById('modalOrderDate').textContent = order.date;
+            document.getElementById('modalOrderStatus').textContent = order.status;
+            document.getElementById('modalOrderTotal').textContent = `¥${order.total}`;
+            document.getElementById('modalUserName').textContent = order.user;
+            document.getElementById('modalUserPhone').textContent = order.phone || '未提供';
+            document.getElementById('modalUserAddress').textContent = order.address || '未提供';
+
+            const itemsContainer = document.getElementById('modalOrderItems');
+            itemsContainer.innerHTML = order.items.map(item => `
+                <div class="order-item">
+                    <img src="${item.image || 'images/placeholder.jpg'}" alt="${item.name}">
+                    <div>
+                        <h4>${item.name}</h4>
+                        <p>数量: ${item.quantity}</p>
+                        <p>单价: ¥${item.price}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('orderDetailModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('orderDetailModal').style.display = 'none';
+        }
+
+        function editOrderStatus(orderId) {
+            const order = filteredOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const newStatus = prompt('请选择新的订单状态：\n1. 处理中\n2. 已支付\n3. 已发货\n4. 已完成\n5. 已取消', order.status);
+            if (!newStatus) return;
+
+            let mockOrders = JSON.parse(localStorage.getItem('mockOrders')) || [];
+            const orderIndex = mockOrders.findIndex(o => o.id === orderId);
+            if (orderIndex > -1) {
+                mockOrders[orderIndex].status = newStatus;
+                localStorage.setItem('mockOrders', JSON.stringify(mockOrders));
+                displayOrders(currentPage);
+            }
+        }
+
+        function deleteOrder(orderId) {
+            if (!confirm(`确认删除订单 ${orderId} 吗？此操作不可恢复。`)) return;
+            
+            let mockOrders = JSON.parse(localStorage.getItem('mockOrders')) || [];
+            mockOrders = mockOrders.filter(o => o.id !== orderId);
+            localStorage.setItem('mockOrders', JSON.stringify(mockOrders));
+            displayOrders(currentPage);
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderDetailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

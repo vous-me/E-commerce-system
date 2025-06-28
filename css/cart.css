@@ -1,0 +1,177 @@
+/* 购物车页面样式 */
+.cart-page {
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cart-page h1 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/* 购物车表格样式 */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cart-table th {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.cart-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.cart-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 商品图片样式 */
+.cart-table img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 数量控制按钮样式 */
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quantity-change {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #495057;
+    transition: all 0.2s ease;
+}
+
+.quantity-change:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+}
+
+.quantity-change:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cart-item-quantity span {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* 移除按钮样式 */
+.remove-item {
+    padding: 0.5rem 1rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.remove-item:hover {
+    background: #c82333;
+}
+
+/* 购物车汇总区域样式 */
+.cart-summary {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-summary h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+.btn-checkout {
+    padding: 0.8rem 2rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-checkout:hover {
+    background: #218838;
+}
+
+/* 空购物车提示样式 */
+.empty-cart-message {
+    text-align: center;
+    padding: 3rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #6c757d;
+    font-size: 1.2rem;
+}
+
+.empty-cart-message a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.empty-cart-message a:hover {
+    text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .cart-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .cart-summary {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .cart-item-quantity {
+        justify-content: center;
+    }
+} 

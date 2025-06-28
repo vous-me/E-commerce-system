@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品详情 - 非遗传承</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product_detail.css">
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <div class="logo">LOGO</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">首页</a></li>
+                    <li><a href="workshop.html">源创工坊</a></li>
+                    <li><a href="mall.html">商城</a></li>
+                    <li><a href="auth.html">登录/注册</a></li> </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="请输入关键字搜索">
+                <button>搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container product-detail-page">
+        <div class="product-detail-header">
+            <a href="mall.html" class="btn-back">&laquo; 返回</a>
+            <a href="orders.html" class="btn-my-orders">我的订单</a>
+        </div>
+
+        <section class="product-info-layout">
+            <div class="product-image-gallery">
+                <img src="images/product_fangjin_large.jpg" alt="扎染方巾 大图" id="mainProductImage">
+            </div>
+            <div class="product-details">
+                <h1 id="productName">扎染方巾</h1>
+                <p class="price" id="productPrice">¥15</p>
+                <p class="stock">库存: <span id="productStock">50</span></p>
+                
+            
+                <div class="quantity-selector">
+                    <label for="quantity">选择购买数量:</label>
+                    <button class="quantity-btn" id="decreaseQuantity">-</button>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1">
+                    <button class="quantity-btn" id="increaseQuantity">+</button>
+                </div>
+                
+                <button class="btn-buy" data-product-id="P001_DAOBIYOUHUA">购买</button>
+                <div class="product-description">
+                    <h2>商品介绍</h2>
+                    <p id="productDescription">这里是扎染方巾的详细介绍，包括其工艺、特色和文化价值。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-reviews">
+            <h2>商品评价</h2>
+            <div class="review-list">
+                <div class="review-item">
+                    <div class="review-header">
+                        <img src="images/user_avatar_placeholder.png" alt="用户头像" class="user-avatar">
+                        <span class="username">用户A</span>
+                        <span class="review-date">2025-05-26 10:20</span>
+                    </div>
+                    <div class="rating">
+                        <span>★★★★☆</span> </div>
+                    <p class="review-text">扎染方巾很有特色，值得购买！</p>
+                </div>
+                </div>
+            <div class="add-review">
+                <h3>发表评价</h3>
+                <textarea placeholder="写下你的评价..."></textarea>
+                <button>提交评价</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 非遗传承网站. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

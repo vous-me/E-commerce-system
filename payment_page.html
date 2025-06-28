@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单支付 - 非遗传承</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <div class="logo">LOGO</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="workshop.html">源创工坊</a></li>
+                    <li><a href="mall.html">商城</a></li>
+                    <li><a href="auth.html">登录/注册</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="请输入关键字搜索">
+                <button>搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container payment-page-container">
+        <h1>订单支付</h1>
+        
+        <div class="payment-details-box">
+            <h2>选择支付方式</h2>
+            <div class="form-group payment-method-selection">
+                <label class="radio-label">
+                    <input type="radio" name="paymentMethod" value="alipay" id="selectAlipay" checked>
+                    支付宝
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="paymentMethod" value="wechat" id="selectWechat">
+                    微信支付
+                </label>
+            </div>
+
+            <div id="alipayPaymentSection" class="payment-section alipay-section">
+                <h3>支付宝支付</h3>
+                <div class="form-group">
+                    <label>收款方:</label>
+                    <span id="alipayRecipient">非遗网</span>
+                </div>
+                <div class="form-group">
+                    <label>标题:</label>
+                    <span id="alipayOrderTitle"></span>
+                </div>
+                <div class="form-group">
+                    <label>付款金额:</label>
+                    <span id="alipayOrderAmount">¥0.00</span>
+                </div>
+                <div class="form-group">
+                    <label>备注:</label>
+                    <textarea id="alipayRemarks" rows="3" placeholder="（如联系方法,商品要求、数量等。100汉字内）"></textarea>
+                </div>
+                <div class="alipay-qr-code" style="text-align: center; margin-top: 15px;">
+                    <p>请使用支付宝扫码支付</p>
+                    <img src="images/zf_code_placeholder.png" alt="支付宝支付二维码" id="alipayQrCodeImage" style="width: 150px; height: 150px; margin-top: 5px; display: block; margin-left: auto; margin-right: auto;">
+                </div>
+                <p class="special-reminder" style="margin-top: 15px; text-align: center;"><strong>特别提醒:</strong> 付款过程务必等到出现“费用支付成功”。<br>如无法支付请在24小时内联系客服!</p>
+                <button id="confirmAlipayOrderButton" class="btn-submit" style="margin-top: 15px;">我已完成支付 (支付宝)</button>
+            </div>
+
+
+            <div id="wechatPaymentSection" class="payment-section wechatpay-section" style="display: none;">
+                <h3>微信支付</h3>
+                <div class="form-group">
+                    <label>收款方:</label>
+                    <span id="wechatRecipient">非遗网</span> <!-- 与支付宝一致，或按需修改 -->
+                </div>
+                <div class="form-group">
+                    <label>标题:</label>
+
+                    <span id="wechatOrderTitle"></span> 
+                </div>
+                <div class="form-group">
+                    <label>付款金额:</label>
+                    <span id="wechatOrderAmount">¥0.00</span>
+                </div>
+                <div class="form-group">
+                    <label>备注:</label>
+                    <textarea id="wechatRemarks" rows="3" placeholder="（如联系方法,商品要求、数量等。100汉字内）"></textarea> <!-- JS中也需要处理此备注 -->
+                </div>
+                <div class="wechat-qr-code" style="text-align: center; margin-top: 15px;">
+                    <p>请使用微信扫码支付</p>
+                    <img src="images/qr_code_placeholder.png" alt="微信支付二维码" id="wechatQrCodeImage" style="width: 150px; height: 150px; margin-top: 5px;">
+                </div>
+                <p class="special-reminder" style="margin-top: 15px; text-align: center;"><strong>特别提醒:</strong> 付款过程务必等到出现“费用支付成功”。<br>如无法支付请在24小时内联系客服!</p>
+                <button id="confirmWechatPaymentButton" class="btn-submit" style="margin-top: 15px;">我已完成支付 (微信)</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 非遗传承网站. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/payment_page.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 非遗传承</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <div class="logo">LOGO</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="workshop.html">源创工坊</a></li>
+                    <li><a href="mall.html">商城</a></li>
+                    <li><a href="auth.html">登录/注册</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="请输入关键字搜索">
+                <button>搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container cart-page">
+        <h1 style="text-align: center;">我的购物车</h1>
+        <div id="cartItemsContainer">
+            <p class="empty-cart-message" style="display: none;">您的购物车是空的。 <a href="mall.html">去逛逛吧！</a></p>
+        </div>
+        <div class="cart-summary" style="display: none;">
+            <h3 style="text-align: center;">总计: ¥<span id="cartTotal">0.00</span></h3>
+            <button class="btn-checkout" style="margin-left: 45%;">去结算</button>
+        </div>
+        <div id="paymentModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-button" onclick="closePaymentModal()">&times;</span>
+                <h2>扫码支付</h2>
+                <p>订单总金额: ¥<span id="modalOrderTotal">0.00</span></p>
+                <img src="images/qr_code_placeholder.png" alt="扫描支付（模拟）" id="qrCodeImage" style="width: 200px; height: 200px; display: block; margin: 20px auto;">
+                <p style="text-align: center; color: #777;">请用您的支付应用扫描上方二维码</p>
+                <button id="confirmPaymentButton" class="btn-submit">我已完成支付</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 非遗传承网站. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>
