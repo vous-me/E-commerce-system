@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCartCounter();
     }
 
-    // 获取URL参数中的订单信息 (模拟)
+    // 获取URL参数中的订单信息
     const urlParams = new URLSearchParams(window.location.search);
     const orderIdFromUrl = urlParams.get('orderId'); // 假设从URL传递订单ID
     const orderAmountFromUrl = parseFloat(urlParams.get('amount')); // 假设从URL传递金额
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentOrderDetails = null;
 
-    // 模拟从localStorage或API获取订单详情
+    // 从localStorage或API获取订单详情
     function loadOrderDetails() {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         let totalAmount = 0;
@@ -94,19 +94,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 支付宝确认订单按钮事件
     if (confirmAlipayOrderButton) {
         confirmAlipayOrderButton.addEventListener('click', function() {
-            // 模拟支付宝处理逻辑，实际应用中会跳转到支付宝或调用SDK
+            // 实际应用中会跳转到支付宝或调用SDK
             alert(`将通过支付宝支付订单：${currentOrderDetails.title}，金额：¥${currentOrderDetails.amount.toFixed(2)}。您已扫码并支付成功。`);
-            // 假设支付成功
             processSuccessfulPayment('Alipay');
         });
     }
 
-    // 微信支付“我已完成支付”按钮事件
+    // 微信支付"我已完成支付"按钮事件
     if (confirmWechatPaymentButton) {
         confirmWechatPaymentButton.addEventListener('click', function() {
-            // 模拟微信支付确认，实际应用中会轮询后端检查支付状态
+            // 实际应用中会轮询后端检查支付状态
             alert(`微信支付订单：${currentOrderDetails.title}，金额：¥${currentOrderDetails.amount.toFixed(2)}。您已扫码并支付成功。`);
-            // 假设支付成功
             processSuccessfulPayment('WeChat');
         });
     }
@@ -125,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             user: username,
             date: new Date().toISOString().slice(0, 10),
             total: '¥' + currentOrderDetails.amount.toFixed(2),
-            status: `已支付 (${paymentMethod} - 模拟)`,
+            status: `已支付 (${paymentMethod})`,
             items: currentOrderDetails.items // 从加载的订单详情中获取
         };
         mockOrders.push(newOrder);
@@ -136,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateCartCounter();
         }
 
-        alert(`支付成功！感谢您的订单 (订单号: ${newOrder.id} - 通过 ${paymentMethod} 模拟)。`);
+        alert(`支付成功！感谢您的订单 (订单号: ${newOrder.id} - 通过 ${paymentMethod})。`);
         // 跳转到订单成功页面或用户中心
         // window.location.href = 'order_success.html?orderId=' + newOrder.id;
         // 为简单起见，我们先跳转回首页

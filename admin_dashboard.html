@@ -215,54 +215,63 @@
 
         // 计算同比增长
         function calculateGrowth(current, previous) {
-            if (!previous) return 0;
-            return ((current - previous) / previous * 100).toFixed(1);
+            if (!previous) return current ? '100%' : '0%';
+            if (isNaN(current) || isNaN(previous)) return '0%';
+            return ((current - previous) / previous * 100).toFixed(1) + '%';
+        }
+
+        // 获取最近n个月的月份标签
+        function getRecentMonths(n) {
+            const now = new Date();
+            return Array.from({length: n}, (_, i) => {
+                const d = new Date(now.getFullYear(), now.getMonth() - (n - 1 - i), 1);
+                return `${d.getMonth() + 1}月`;
+            });
         }
 
         // 更新统计数据
         function updateStats() {
             const orders = JSON.parse(localStorage.getItem('mockOrders')) || [];
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            
             // 获取上个月的数据
+            const lastMonth = new Date();
+            lastMonth.setMonth(lastMonth.getMonth() - 1);
             const lastMonthOrders = orders.filter(order => {
-                const orderDate = new Date(order.orderTime);
-                const lastMonth = new Date();
-                lastMonth.setMonth(lastMonth.getMonth() - 1);
-                return orderDate.getMonth() === lastMonth.getMonth();
+                const orderDate = order.orderTime ? new Date(order.orderTime) : null;
+                return orderDate && orderDate.getMonth() === lastMonth.getMonth();
             });
-            
             const lastMonthUsers = users.filter(user => {
-                const userDate = new Date(user.registerTime);
-                const lastMonth = new Date();
-                lastMonth.setMonth(lastMonth.getMonth() - 1);
-                return userDate.getMonth() === lastMonth.getMonth();
+                const userDate = user.registerTime ? new Date(user.registerTime) : null;
+                return userDate && userDate.getMonth() === lastMonth.getMonth();
             });
-            
             // 计算总销售额
-            const totalSales = orders.reduce((sum, order) => sum + order.total, 0);
-            const lastMonthSales = lastMonthOrders.reduce((sum, order) => sum + order.total, 0);
+            const totalSales = orders.reduce((sum, order) => {
+                let val = order.total;
+                if (typeof val === 'string') val = parseFloat(val.replace(/[^\d.]/g, ''));
+                return sum + (isNaN(val) ? 0 : val);
+            }, 0);
+            const lastMonthSales = lastMonthOrders.reduce((sum, order) => {
+                let val = order.total;
+                if (typeof val === 'string') val = parseFloat(val.replace(/[^\d.]/g, ''));
+                return sum + (isNaN(val) ? 0 : val);
+            }, 0);
             const salesGrowth = calculateGrowth(totalSales, lastMonthSales);
-            
             document.querySelector('.stat-card:nth-child(1) .value').textContent = 
                 `¥${totalSales.toFixed(2)}`;
             document.querySelector('.stat-card:nth-child(1) .trend').textContent = 
-                `${salesGrowth}% 较上月`;
-            
+                `${salesGrowth} 较上月`;
             // 计算总订单数
             const orderGrowth = calculateGrowth(orders.length, lastMonthOrders.length);
             document.querySelector('.stat-card:nth-child(2) .value').textContent = 
                 orders.length;
             document.querySelector('.stat-card:nth-child(2) .trend').textContent = 
-                `${orderGrowth}% 较上月`;
-            
+                `${orderGrowth} 较上月`;
             // 计算会员总数
             const userGrowth = calculateGrowth(users.length, lastMonthUsers.length);
             document.querySelector('.stat-card:nth-child(3) .value').textContent = 
                 users.length;
             document.querySelector('.stat-card:nth-child(3) .trend').textContent = 
-                `${userGrowth}% 较上月`;
-            
+                `${userGrowth} 较上月`;
             // 计算商品总数（示例数据）
             const products = 8;
             document.querySelector('.stat-card:nth-child(4) .value').textContent = 
@@ -273,31 +282,37 @@
         function initCharts() {
             const orders = JSON.parse(localStorage.getItem('mockOrders')) || [];
             const users = JSON.parse(localStorage.getItem('users')) || [];
-
+            const months = getRecentMonths(6);
             // 处理销售数据
             const salesData = Array(6).fill(0);
             orders.forEach(order => {
-                const month = new Date(order.orderTime).getMonth();
-                if (month >= 0 && month < 6) {
-                    salesData[month] += order.total;
+                const date = order.orderTime ? new Date(order.orderTime) : null;
+                if (date && !isNaN(date)) {
+                    const diff = (new Date().getFullYear() - date.getFullYear()) * 12 + (new Date().getMonth() - date.getMonth());
+                    if (diff >= 0 && diff < 6) {
+                        let val = order.total;
+                        if (typeof val === 'string') val = parseFloat(val.replace(/[^\d.]/g, ''));
+                        salesData[5 - diff] += isNaN(val) ? 0 : val;
+                    }
                 }
             });
-
             // 处理用户数据
             const userData = Array(6).fill(0);
             users.forEach(user => {
-                const month = new Date(user.registerTime).getMonth();
-                if (month >= 0 && month < 6) {
-                    userData[month]++;
+                const date = user.registerTime ? new Date(user.registerTime) : null;
+                if (date && !isNaN(date)) {
+                    const diff = (new Date().getFullYear() - date.getFullYear()) * 12 + (new Date().getMonth() - date.getMonth());
+                    if (diff >= 0 && diff < 6) {
+                        userData[5 - diff]++;
+                    }
                 }
             });
-
             // 销售额趋势图
             const salesCtx = document.getElementById('salesChart').getContext('2d');
             new Chart(salesCtx, {
                 type: 'line',
                 data: {
-                    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                    labels: months,
                     datasets: [{
                         label: '销售额',
                         data: salesData,
@@ -327,13 +342,12 @@
                     }
                 }
             });
-
             // 用户增长趋势图
             const usersCtx = document.getElementById('usersChart').getContext('2d');
             new Chart(usersCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                    labels: months,
                     datasets: [{
                         label: '新增用户',
                         data: userData,

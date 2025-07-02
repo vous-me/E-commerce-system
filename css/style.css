@@ -1,6 +1,6 @@
 /* Global Styles & Resets */
 :root {
-    --primary-color: #4ab850;
+    --primary-color: #032548;
     --secondary-color: #A5D6A7;
     --success-color: #66BB6A;
     --warning-color: #FFB74D;
@@ -255,7 +255,7 @@ footer .container p {
 
 .enter-button {
     display: inline-block;
-    background-color: #28a745; /* Green color like in some entry buttons */
+    background-color: #042749; /* Green color like in some entry buttons */
     color: white;
     padding: 15px 30px;
     font-size: 1.2em;
@@ -656,6 +656,7 @@ input::-webkit-inner-spin-button {
 }
 /* Hide arrows for number input in Firefox */
 input[type=number] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -683,7 +684,7 @@ input[type=number] {
 .btn-buy {
     padding: 12px 25px;
     font-size: 1.1em;
-    background-color: #28a745;
+    background-color: #042749;
     width: 100%; /* Make buy button full width */
     margin-bottom: 20px;
 }
@@ -1467,7 +1468,7 @@ header nav ul li a:hover {
 }
 
 .wechat-welcome {
-    background-color: #28a745; /* Green background */
+    background-color: #042749; /* Green background */
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -1652,4 +1653,149 @@ header nav ul li a:hover {
   .item-description .history-tags .offset-right {
     align-self: flex-end;
   }
+}
+.fujian-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.fujian-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.fujian-introduction {
+    flex: 1 0 45%;
+    margin-right: 20px;
+}
+
+.fujian-video-container {
+    flex: 1 0 45%;
+    margin-right: 20px;
+}
+
+.fujian-introduction:nth-child(2n) {
+    flex: 1 0 45%;
+    margin-right: 0;
+}
+
+.fujian-video-container:nth-child(2n) {
+    flex: 1 0 45%;
+    margin-right: 20px;
+}
+
+.fujian-h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.fujian-p {
+    font-size: 1em;
+    color: #333;
+    line-height: 1.6;
+}
+
+.fujian-video-container video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+/* 视频教程部分的样式 */
+.item-detail-video-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.item-detail-video-container {
+    flex: 1 0 45%;
+    margin-right: 20px;
+}
+
+.item-detail-video-container:nth-child(2n) {
+    margin-right: 0;
+}
+
+.item-detail-video-container video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+} 
+/* 刀画视频教程部分的样式 */
+.item-detail-daohua-video-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 居中对齐 */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.item-detail-daohua-video-container {
+    flex: 1 0 100%; /* 占满整个宽度 */
+    margin: 0 auto; /* 水平居中 */
+    max-width: 800px; /* 最大宽度限制 */
+}
+
+.item-detail-daohua-video-container video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* 保持视频的宽高比 */
+    border-radius: 8px; /* 添加圆角效果 */
+}
+
+/* 刀画详情页图片容器样式 */
+.detailjianzhi-image-container {
+      width: calc(100% / 3 * 2); /* 页面宽度的一半的三分之二 */
+    height: calc(100% / 3); /* 页面宽度的四分之一的三分之二 */
+    margin: 20px auto; /* 水平居中，并添加一些外边距 */
+    overflow: hidden; /* 防止图片溢出容器 */
+    position: relative; /* 设置相对定位 */
+
+}
+
+.detailjianzhi-image-container img {
+     width: 100%; /* 图片宽度自适应容器宽度 */
+    height: 100%; /* 图片高度自适应容器高度 */
+    object-fit: cover; /* 确保图片覆盖整个容器，同时保持宽高比 */
+}
+/* 刀画详情页图片容器样式 */
+.detaildaohua-image-container {
+    width: calc(100% / 3 * 2); /* 页面宽度的一半的三分之二 */
+    height: calc(100% / 3); /* 页面宽度的四分之一的三分之二 */
+    margin: 20px auto; /* 水平居中，并添加一些外边距 */
+    overflow: hidden; /* 防止图片溢出容器 */
+    position: relative; /* 设置相对定位 */
+}
+
+.detaildaohua-image-container img {
+    width: 100%; /* 图片宽度自适应容器宽度 */
+    height: 100%; /* 图片高度自适应容器高度 */
+    object-fit: cover; /* 确保图片覆盖整个容器，同时保持宽高比 */
+}
+.logo {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+    padding: 10px; /* 添加一些内边距 */
+}
+
+.logo img {
+    max-width: 100px; /* 设置LOGO图片的最大宽度 */
+    height: auto; /* 高度自动调整以保持图片比例 */
 }

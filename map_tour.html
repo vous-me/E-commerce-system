@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>非遗导览 - 非遗传承</title>
+    <title>纹藏时光导览 - 纹藏时光</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@4/dist/echarts.min.js"></script>
     <style>
@@ -19,16 +19,17 @@
 <body>
     <header>
         <div class="container header-flex">
-            <div class="logo">LOGO</div>
+             <div class="logo">  <img src="images/20250701193452.png" alt="网站LOGO"></div>
             <nav>
                 <ul>
-                    <li><a href="index.html" class="active">首页</a></li>
+                    <li><a href="index.html">首页</a></li>
                     <li><a href="workshop.html">源创工坊</a></li>
                     <li><a href="mall.html">商城</a></li>
-                    <li><a href="auth.html">登录/注册</a></li> </ul>
+                    <li><a href="auth.html">登录/注册</a></li>
+                </ul>
             </nav>
             <div class="search-bar">
-                <input type="text" placeholder="请输入关键字搜索">
+                <input type="text" placeholder="搜索...">
                 <button>搜索</button>
             </div>
         </div>
@@ -36,7 +37,7 @@
 
     <main class="container map-tour-page">
         <h2>非遗文化地图导览</h2>
-        <p>探索各地的非遗项目和传承人。</p>
+        <p>探索各地的纹藏时光项目和传承人。</p>
 
         <section class="map-container">
             <div id="chinaMap"></div>
@@ -51,28 +52,28 @@
             <h3>重点推荐：大师传人</h3>
             <div class="inheritor-list">
                 <div class="inheritor-card">
-                    <img src="images/inheritor1_avatar.png" alt="传承人头像">
+                    <img src="images/20250701221859.jpg" alt="传承人头像">
                     <h4>张三 (剪纸大师)</h4>
                     <p>位于：吉林地区</p>
                     <a href="item_detail.html?type=inheritor&id=1">了解更多</a>
                 </div>
                 <div class="inheritor-card">
-                    <img src="images/inheritor2_avatar.png" alt="传承人头像">
+                    <img src="images/20250701221909.jpg" alt="传承人头像">
                     <h4>李四 (刀画艺人)</h4>
                     <p>位于：吉林地区</p>
                     <a href="item_detail.html?type=inheritor&id=2">了解更多</a>
                 </div>
             </div>
-            <h3>重点推荐：非遗项目</h3>
+            <h3>重点推荐：纹藏时光项目</h3>
             <div class="inheritor-list">
                 <div class="inheritor-card">
-                    <img src="images/inheritor1_avatar.png" alt="剪纸">
+                    <img src="images/20250701145403.png" alt="剪纸">
                     <h4>剪纸</h4>
                     <p>位于：吉林地区</p>
                     <a href="item_detail.html?type=inheritor&id=1">了解更多</a>
                 </div>
                 <div class="inheritor-card">
-                    <img src="images/inheritor2_avatar.png" alt="刀画">
+                    <img src="images/20250701191654.png" alt="刀画">
                     <h4>刀笔油画</h4>
                     <p>位于：吉林地区</p>
                     <a href="item_detail.html?type=inheritor&id=2">了解更多</a>
@@ -83,103 +84,96 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 非遗传承网站. 保留所有权利。</p>
+            <p>&copy; 2025 纹藏时光. 保留所有权利。</p>
         </div>
     </footer>
 
     <script type="text/javascript">
-        var mapDiv = document.getElementById('chinaMap');
-        if (mapDiv) { // 首先确保 div 存在
-            try {
-                var myChart = echarts.init(mapDiv);
-                var geoJsonUrl = 'china.json';
+ var myChart = echarts.init(document.getElementById('chinaMap'));
+        var geoJsonUrl = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json';
 
-                console.log('Fetching GeoJSON from:', geoJsonUrl); // 调试信息
+        fetch(geoJsonUrl)
+            .then(response => response.json())
+            .then(geoJson => {
+                echarts.registerMap('china', geoJson);
 
-                fetch(geoJsonUrl)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok for GeoJSON: ' + response.statusText);
+                // 打印省份名，辅助调试
+                // console.log(geoJson.features.map(f => f.properties.name));
+
+                var option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{b}<br/>非遗数量：{c}'
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: 250,
+                        left: 'left',
+                        top: 'bottom',
+                        text: ['多', '少'],
+                        calculable: true,
+                        inRange: {
+                            color: ['#FFE4E1', '#FF6347', '#8B0000']
                         }
-                        return response.json();
-                    })
-                    .then(geoJson => {
-                        console.log('GeoJSON fetched successfully:', geoJson); // 调试信息
-                        if (geoJson && geoJson.features) { // 简单检查一下 geoJson 结构
-                            echarts.registerMap('china', geoJson);
-                            console.log('Map registered.'); // 调试信息
+                    },
+                    series: [{
+                        name: '非遗数量',
+                        type: 'map',
+                        map: 'china',
+                        roam: false,
+                        label: {
+                            normal: { show: true },
+                            emphasis: { show: true }
+                        },
+                        data: [
+                            { name: '北京市', value: 120 },
+                            { name: '天津市', value: 80 },
+                            { name: '上海市', value: 100 },
+                            { name: '重庆市', value: 90 },
+                            { name: '河北省', value: 150 },
+                            { name: '河南省', value: 170 },
+                            { name: '云南省', value: 140 },
+                            { name: '辽宁省', value: 110 },
+                            { name: '黑龙江省', value: 60 },
+                            { name: '湖南省', value: 160 },
+                            { name: '安徽省', value: 130 },
+                            { name: '山东省', value: 180 },
+                            { name: '新疆维吾尔自治区', value: 70 },
+                            { name: '江苏省', value: 175 },
+                            { name: '浙江省', value: 155 },
+                            { name: '江西省', value: 250 }, // 最大
+                            { name: '湖北省', value: 145 },
+                            { name: '广西壮族自治区', value: 135 },
+                            { name: '甘肃省', value: 95 },
+                            { name: '山西省', value: 105 },
+                            { name: '内蒙古自治区', value: 85 },
+                            { name: '陕西省', value: 115 },
+                            { name: '吉林省', value: 75 },
+                            { name: '福建省', value: 125 },
+                            { name: '贵州省', value: 100 },
+                            { name: '广东省', value: 165 },
+                            { name: '青海省', value: 55 },
+                            { name: '西藏自治区', value: 40 },
+                            { name: '四川省', value: 185 },
+                            { name: '宁夏回族自治区', value: 50 },
+                            { name: '海南省', value: 65 },
+                            { name: '台湾省', value: 60 },
+                            { name: '香港特别行政区', value: 20 },
+                            { name: '澳门特别行政区', value: 15 }
+                        ]
+                    }]
+                };
+   myChart.setOption(option);
 
-                            var option = {
-                                tooltip: {
-                                    trigger: 'item',
-                                    formatter: '{b}<br/>非遗数量：{c}'
-                                },
-                                visualMap: {
-                                    min: 0,
-                                    max: 250, // 你可以根据实际数据调整
-                                    left: 'left',
-                                    top: 'bottom',
-                                    text: ['多', '少'],
-                                    calculable: true,
-                                    inRange: {
-                                        color: ['#FFE4E1', '#FF6347', '#8B0000']
-                                    }
-                                },
-                                series: [{
-                                    name: '非遗数量',
-                                    type: 'map',
-                                    map: 'china', // 这里必须是 'china'，与 registerMap 对应
-                                    roam: false, // 是否开启鼠标缩放和平移漫游。
-                                    label: {
-                                        normal: { show: true }, // 在echarts 5中是 show: true
-                                        emphasis: { show: true } // 在echarts 5中是 emphasis: { label: { show: true } }
-                                    },
-                                    data: [ // 你的数据
-                                        { name: '北京市', value: 120 }, { name: '天津市', value: 80 },
-                                        { name: '上海市', value: 100 }, { name: '重庆市', value: 90 },
-                                        { name: '河北省', value: 150 }, { name: '河南省', value: 170 },
-                                        { name: '云南省', value: 140 }, { name: '辽宁省', value: 110 },
-                                        { name: '黑龙江省', value: 60 }, { name: '湖南省', value: 160 },
-                                        { name: '安徽省', value: 130 }, { name: '山东省', value: 180 },
-                                        { name: '新疆维吾尔自治区', value: 70 }, { name: '江苏省', value: 175 },
-                                        { name: '浙江省', value: 155 }, { name: '江西省', value: 250 },
-                                        { name: '湖北省', value: 145 }, { name: '广西壮族自治区', value: 135 },
-                                        { name: '甘肃省', value: 95 }, { name: '山西省', value: 105 },
-                                        { name: '内蒙古自治区', value: 85 }, { name: '陕西省', value: 115 },
-                                        { name: '吉林省', value: 75 }, { name: '福建省', value: 125 },
-                                        { name: '贵州省', value: 100 }, { name: '广东省', value: 165 },
-                                        { name: '青海省', value: 55 }, { name: '西藏自治区', value: 40 },
-                                        { name: '四川省', value: 185 }, { name: '宁夏回族自治区', value: 50 },
-                                        { name: '海南省', value: 65 }, { name: '台湾省', value: 60 },
-                                        { name: '香港特别行政区', value: 20 }, { name: '澳门特别行政区', value: 15 }
-                                        // 确保这里的 name 和 GeoJSON 中的省份名称一致
-                                    ]
-                                }]
-                            };
-                            myChart.setOption(option);
-                            console.log('Chart option set.'); // 调试信息
-
-                            myChart.on('click', function(params) {
-                                if (params.name === '江西' || params.name === '江西省') {
-                                    window.location.href = 'jiangxi.html';
-                                }
-                                // 你可以为其他省份添加点击事件
-                                // console.log('Clicked on:', params.name, 'Value:', params.value);
-                            });
-
-                        } else {
-                            console.error('GeoJSON data is not in the expected format or is empty.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching or processing GeoJSON:', error);
-                    });
-            } catch (e) {
-                console.error('ECharts initialization failed:', e);
-            }
-        } else {
-            console.error('Map container div with id "chinaMap" not found.');
-        }
+                // 添加点击事件
+                myChart.on('click', function(params) {
+                    if (params.name === '江西' || params.name === '江西省') {
+                        window.location.href = 'jiangxi.html'; // 跳转到江西页面
+                    } else if (params.name === '福建' || params.name === '福建省') {
+                        window.location.href = 'fujian.html'; // 跳转到福建页面
+                    }
+                });
+            });
     </script>
 
     <script src="js/script.js"></script>
