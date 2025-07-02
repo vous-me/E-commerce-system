@@ -1,6 +1,6 @@
 /* Global Styles & Resets */
 :root {
-    --primary-color: #032548;
+    --primary-color: #4ab850;
     --secondary-color: #A5D6A7;
     --success-color: #66BB6A;
     --warning-color: #FFB74D;
@@ -255,7 +255,7 @@ footer .container p {
 
 .enter-button {
     display: inline-block;
-    background-color: #042749; /* Green color like in some entry buttons */
+    background-color: #28a745; /* Green color like in some entry buttons */
     color: white;
     padding: 15px 30px;
     font-size: 1.2em;
@@ -457,64 +457,6 @@ footer .container p {
     border-radius: 4px;
 }
 
-.item-description .hot-works {
-    display: flex;
-    gap: 16px;
-    margin: 16px 0;
-}
-.item-description .hot-works img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-
-.item-description .history-tags {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    margin: 16px 0 24px 0;
-}
-.item-description .history-tags > div {
-    background: #f5f7fa;
-    border: 1px solid #e0e0e0;
-    border-radius: 3px;
-    padding: 0 4px;
-    font-size: 14px;
-    color: #333;
-    box-shadow: none;
-    white-space: nowrap;
-    margin-bottom: 0;
-    display: inline-block;
-    vertical-align: middle;
-}
-.item-description .history-tags hr {
-    display: none;
-}
-
-.item-description .era-line {
-    flex: 1;
-    border-bottom: 1px solid #d0d0d0;
-    height: 0;
-    margin-left: 8px;
-    position: relative;
-    min-width: 40px;
-    display: flex;
-    align-items: center;
-}
-.item-description .era-line span {
-    position: relative;
-    background: #fff;
-    padding: 0 8px;
-    color: #888;
-    font-size: 13px;
-    left: 0;
-    transform: translateY(50%);
-    white-space: nowrap;
-}
-
 .page-navigation {
     margin-top: 30px;
     display: flex;
@@ -656,7 +598,6 @@ input::-webkit-inner-spin-button {
 }
 /* Hide arrows for number input in Firefox */
 input[type=number] {
-  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -684,7 +625,7 @@ input[type=number] {
 .btn-buy {
     padding: 12px 25px;
     font-size: 1.1em;
-    background-color: #042749;
+    background-color: #28a745;
     width: 100%; /* Make buy button full width */
     margin-bottom: 20px;
 }
@@ -1468,7 +1409,7 @@ header nav ul li a:hover {
 }
 
 .wechat-welcome {
-    background-color: #042749; /* Green background */
+    background-color: #28a745; /* Green background */
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -1584,218 +1525,3 @@ header nav ul li a:hover {
 .admin-actions .btn-detail { background-color: #17a2b8; color: white; border: none;}
 .admin-actions .btn-edit { background-color: #ffc107; color: #212529; border: none;}
 .admin-actions .btn-delete { background-color: #dc3545; color: white; border: none;}
-
-/* item-detail-page 新布局 */
-.item-detail-layout {
-    display: flex;
-    gap: 32px;
-    margin-top: 32px;
-}
-.sidebar {
-    width: 160px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background: #fafafa;
-    border-radius: 8px;
-    padding: 24px 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    min-height: 400px;
-}
-.sidebar-btn {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 12px 0;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 8px;
-    transition: background 0.2s, color 0.2s;
-}
-.sidebar-btn.active, .sidebar-btn:hover {
-    background: #e6f7ff;
-    color: #1890ff;
-    border-color: #1890ff;
-}
-.detail-content {
-    flex: 1;
-    background: #fff;
-    border-radius: 8px;
-    padding: 32px 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-@media (max-width: 900px) {
-    .item-detail-layout {
-        flex-direction: column;
-        gap: 0;
-    }
-    .sidebar {
-        flex-direction: row;
-        width: 100%;
-        min-height: unset;
-        padding: 12px 0;
-        justify-content: space-around;
-    }
-    .sidebar-btn {
-        flex: 1;
-        margin-bottom: 0;
-    }
-    .detail-content {
-        padding: 20px 8px;
-    }
-}
-
-.item-description .history-tags .offset-right {
-    margin-left: 0;
-    align-self: flex-end;
-}
-@media (max-width: 600px) {
-  .item-description .history-tags .offset-right {
-    align-self: flex-end;
-  }
-}
-.fujian-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 20px 0;
-}
-
-.fujian-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    width: 100%;
-}
-
-.fujian-introduction {
-    flex: 1 0 45%;
-    margin-right: 20px;
-}
-
-.fujian-video-container {
-    flex: 1 0 45%;
-    margin-right: 20px;
-}
-
-.fujian-introduction:nth-child(2n) {
-    flex: 1 0 45%;
-    margin-right: 0;
-}
-
-.fujian-video-container:nth-child(2n) {
-    flex: 1 0 45%;
-    margin-right: 20px;
-}
-
-.fujian-h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.fujian-p {
-    font-size: 1em;
-    color: #333;
-    line-height: 1.6;
-}
-
-.fujian-video-container video {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-}
-/* 视频教程部分的样式 */
-.item-detail-video-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 20px 0;
-}
-
-.item-detail-video-container {
-    flex: 1 0 45%;
-    margin-right: 20px;
-}
-
-.item-detail-video-container:nth-child(2n) {
-    margin-right: 0;
-}
-
-.item-detail-video-container video {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-} 
-/* 刀画视频教程部分的样式 */
-.item-detail-daohua-video-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* 居中对齐 */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 20px 0;
-}
-
-.item-detail-daohua-video-container {
-    flex: 1 0 100%; /* 占满整个宽度 */
-    margin: 0 auto; /* 水平居中 */
-    max-width: 800px; /* 最大宽度限制 */
-}
-
-.item-detail-daohua-video-container video {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9; /* 保持视频的宽高比 */
-    border-radius: 8px; /* 添加圆角效果 */
-}
-
-/* 刀画详情页图片容器样式 */
-.detailjianzhi-image-container {
-      width: calc(100% / 3 * 2); /* 页面宽度的一半的三分之二 */
-    height: calc(100% / 3); /* 页面宽度的四分之一的三分之二 */
-    margin: 20px auto; /* 水平居中，并添加一些外边距 */
-    overflow: hidden; /* 防止图片溢出容器 */
-    position: relative; /* 设置相对定位 */
-
-}
-
-.detailjianzhi-image-container img {
-     width: 100%; /* 图片宽度自适应容器宽度 */
-    height: 100%; /* 图片高度自适应容器高度 */
-    object-fit: cover; /* 确保图片覆盖整个容器，同时保持宽高比 */
-}
-/* 刀画详情页图片容器样式 */
-.detaildaohua-image-container {
-    width: calc(100% / 3 * 2); /* 页面宽度的一半的三分之二 */
-    height: calc(100% / 3); /* 页面宽度的四分之一的三分之二 */
-    margin: 20px auto; /* 水平居中，并添加一些外边距 */
-    overflow: hidden; /* 防止图片溢出容器 */
-    position: relative; /* 设置相对定位 */
-}
-
-.detaildaohua-image-container img {
-    width: 100%; /* 图片宽度自适应容器宽度 */
-    height: 100%; /* 图片高度自适应容器高度 */
-    object-fit: cover; /* 确保图片覆盖整个容器，同时保持宽高比 */
-}
-.logo {
-    display: flex;
-    align-items: center; /* 垂直居中对齐 */
-    justify-content: center; /* 水平居中对齐 */
-    padding: 10px; /* 添加一些内边距 */
-}
-
-.logo img {
-    max-width: 100px; /* 设置LOGO图片的最大宽度 */
-    height: auto; /* 高度自动调整以保持图片比例 */
-}
